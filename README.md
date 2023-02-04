@@ -32,11 +32,11 @@ Getting help
 
 You can get help using issues:
 
-Report bugs, request new features or ask questions by `creating an issue <https://github.com/dinozzzzzawrik/tgsa-bot/issues/new>`.
+Report bugs, request new features or ask questions by `creating an issue`
 
 ============
 Contributing
 ============
 
-Contributions of all sizes are welcome.
+Contributions of all sizes are welcome
 
