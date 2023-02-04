@@ -25,6 +25,11 @@ Installing
 ==========
 
     $ git clone https://github.com/dinozzzzzawrik/tgsa-bot.git
+    
+    Setup envs:
+    
+    - Create .env file with BOT_TOKEN=token here in it
+    
     $ pip install -r requirements.txt
     $ python run.py
 
