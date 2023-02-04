@@ -6,7 +6,7 @@ db = SqliteDatabase('database.db')
 class WhiteList(Model):
     id = IntegerField(primary_key=True)
     name = CharField(null=False)
-    tg_id = IntegerField(null=False, unique=True)
+    tg_id = CharField(null=False, unique=True)
 
     class Meta:
         db_table = 'WhiteList'
