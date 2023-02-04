@@ -15,7 +15,6 @@ from bot import handlers
 
 async def on_startup(dp):
     handlers.setup(dp)
-    logging.log(1, msg='handlers setuped')
 
 
 async def on_shutdown(dp):
