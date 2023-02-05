@@ -12,6 +12,8 @@ Table of contents
 
 - `Contributing`
 
+- `How to add account in db`
+
 ============
 Introduction
 ============
@@ -23,6 +25,11 @@ Installing
 ==========
 
     $ git clone https://github.com/dinozzzzzawrik/tgsa-bot.git
+    
+    Setup envs:
+    
+    - Create .env file with BOT_TOKEN=token here in it
+    
     $ pip install -r requirements.txt
     $ python run.py
 
@@ -40,3 +47,17 @@ Contributing
 
 Contributions of all sizes are welcome
 
+======================================================
+How to add account in db - will make it by admin panel
+======================================================
+
+Open python shell
+
+    $ from models import *
+
+
+    $ account = Accounts(name='account name in db', key='shared_secret valie from Mafile')
+    $ account.save()
+
+    $ user = WhiteList(name='User name', tg_id=telegram id from @userinfobot)
+    $ user.save()
