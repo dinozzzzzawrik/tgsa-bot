@@ -7,7 +7,7 @@ from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
     InlineKeyboardMarkup, InlineKeyboardButton
 
-from steampy.guard import generate_one_time_code
+from steampy.guard import generate_one_time_code, generate_confirmation_key
 
 from dotenv import load_dotenv
 
@@ -24,15 +24,15 @@ async def process_start_command(msg: types.Message):
     try:
         WhiteList.get(WhiteList.tg_id == msg.from_user.id)
 
-        greet_kb2 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 
         accounts = Accounts.select()
 
         for acc in accounts:
             button = KeyboardButton(acc.name)
-            greet_kb2.add(button)
+            kb.add(button)
 
-        await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram', reply_markup=greet_kb2)
+        await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram', reply_markup=kb)
     except (Exception,):
         await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram\n'
                                                  'GitHub with projects parts: https://github.com/dinozzzzzawrik')
@@ -49,7 +49,7 @@ async def process_help_command(msg: types.Message):
 
 
 @dp.message_handler()
-async def get_code(msg: types.Message):
+async def get_sg_code(msg: types.Message):
     try:
         WhiteList.get(WhiteList.tg_id == msg.from_user.id)
         try:
@@ -60,7 +60,7 @@ async def get_code(msg: types.Message):
             await bot.send_message(msg.from_user.id, 'this account is not in data base')
     except (Exception,):
         await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram\n'
-                                                     'GitHub with projects parts: https://github.com/dinozzzzzawrik')
+                                                 'GitHub with projects parts: https://github.com/dinozzzzzawrik')
 
 
 if __name__ == '__main__':
