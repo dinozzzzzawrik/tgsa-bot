@@ -1,4 +1,5 @@
 import os
+import asyncio
 
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -9,14 +10,37 @@ from aiogram.types import ReplyKeyboardRemove, \
 
 from steampy.guard import generate_one_time_code, generate_confirmation_key
 
+from aiohttp import web
+
 from dotenv import load_dotenv
 
 from models import *
 
 
 load_dotenv()
-bot = Bot(token=os.getenv('BOT_TOKEN'))
-dp = Dispatcher(bot)
+
+dp = Dispatcher(Bot(token=os.getenv('BOT_TOKEN')))
+
+
+async def start_web_server():
+    app = web.Application()
+    # setup your web routes here
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, 'localhost', 8080)
+    await site.start()
+
+
+async def on_startup(dp):
+    bot = Bot(token=os.getenv('BOT_TOKEN'))
+    # setup your handlers here
+    return bot
+
+
+async def on_shutdown(dp):
+    await dp.storage.close()
+    await dp.storage.wait_closed()
+    await bot.close()
 
 
 @dp.message_handler(commands=['start'])
@@ -67,4 +91,7 @@ if __name__ == '__main__':
     db.connect()
     Accounts.create_table()
     WhiteList.create_table()
-    executor.start_polling(dp)
+    loop = asyncio.get_event_loop()
+    loop.create_task(start_web_server())
+    bot = loop.run_until_complete(on_startup(dp))
+    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
