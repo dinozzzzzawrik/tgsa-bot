@@ -138,25 +138,24 @@
           <table>
             <tr>
               <th>Username</th>
-              <th>Email</th>
+              <th>Telegram id</th>
+              <th>Actions</th>
             </tr>
-            <tr>
-              <td>user1</td>
-              <td>user1@example.com</td>
-              <td><a href="/delete" class="button">Delete</a></td>
-            </tr>
-            <tr>
-              <td>user2</td>
-              <td>user2@example.com</td>
-              <td><a href="/delete" class="button">Delete</a></td>
-            </tr>
+            {% for user in whitelist %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.tg_id }}</td>
+                    <td><a href="/delete?id={{ user.id }}">Delete</a></td>
+                </tr>
+            {% endfor %}
           </table>
-          <form method="POST" action="/add_user">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"><br>
+          <form method="POST" action="/add">
 
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email"><br>
+            <label for="name">Username:</label>
+            <input type="text" id="name" name="name"><br>
+
+            <label for="tg_id">Telegram id:</label>
+            <input type="text" id="tg_id" name="tg_id"><br>
 
             <input type="submit" value="Add User">
           </form>

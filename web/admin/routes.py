@@ -10,4 +10,5 @@ def setup_routes(app: web.Application) -> None:
 
     app.router.add_get('/logout', views.logout)
 
-    app.router.add_post('/add_user', views.add_user)
+    app.router.add_post('/add', views.add)
+    app.router.add_get('/delete', views.delete)
