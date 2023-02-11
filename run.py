@@ -1,4 +1,11 @@
 import os
+import asyncio
+import jinja2
+import base64
+import fernet
+import aiohttp_session
+import aiohttp_jinja2
+
 
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -7,64 +14,62 @@ from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
     InlineKeyboardMarkup, InlineKeyboardButton
 
-from steampy.guard import generate_one_time_code, generate_confirmation_key
+from bot import handlers
+
+from aiohttp import web
 
 from dotenv import load_dotenv
 
-from models import *
+from models.models import *
+
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 
-load_dotenv()
-bot = Bot(token=os.getenv('BOT_TOKEN'))
-dp = Dispatcher(bot)
+def setup_routes(application: web.Application) -> None:
+    from web.admin.routes import setup_routes as setup_web_routes
+    setup_web_routes(application)
 
 
-@dp.message_handler(commands=['start'])
-async def process_start_command(msg: types.Message):
-    try:
-        WhiteList.get(WhiteList.tg_id == msg.from_user.id)
-
-        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-
-        accounts = Accounts.select()
-
-        for acc in accounts:
-            button = KeyboardButton(acc.name)
-            kb.add(button)
-
-        await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram', reply_markup=kb)
-    except (Exception,):
-        await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram\n'
-                                                 'GitHub with projects parts: https://github.com/dinozzzzzawrik')
+async def setup_app(application: web.Application) -> None:
+    setup_routes(application)
 
 
-@dp.message_handler(commands=['help'])
-async def process_help_command(msg: types.Message):
-    try:
-        WhiteList.get(WhiteList.tg_id == msg.from_user.id)
-        await msg.reply('Admin-panel: url')
-    except (Exception,):
-        await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram\n'
-                                                 'GitHub with projects parts: https://github.com/dinozzzzzawrik')
+async def start_web_server():
+    app = web.Application()
+    runner = web.AppRunner(app)
+    await setup_app(app)
+    # session_key = base64.urlsafe_b64decode(fernet.Fernet.generate_key())
+    # setup(app, cookie_storage=EncryptedCookieStorage(session_key))
+    app.middlewares.append(aiohttp_session.session_middleware(aiohttp_session.SimpleCookieStorage()))
+    aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('web/templates'))
+    await runner.setup()
+    site = web.TCPSite(runner, host=None, port=8080)
+    await site.start()
 
 
-@dp.message_handler()
-async def get_sg_code(msg: types.Message):
-    try:
-        WhiteList.get(WhiteList.tg_id == msg.from_user.id)
-        try:
-            account = Accounts.select().where(Accounts.name == msg.text).get()
-            one_time_authentication_code = generate_one_time_code(account.key)
-            await bot.send_message(msg.from_user.id, f'Steam Guard: {one_time_authentication_code}')
-        except (Exception,):
-            await bot.send_message(msg.from_user.id, 'this account is not in data base')
-    except (Exception,):
-        await bot.send_message(msg.from_user.id, 'Bot to get Steam Guard Code with telegram\n'
-                                                 'GitHub with projects parts: https://github.com/dinozzzzzawrik')
+async def on_startup(dp):
+    # Setup handlers
+    handlers.setup(dp)
 
 
-if __name__ == '__main__':
+async def on_shutdown(dp, bot):
+    print('Stoping...')
+
+
+def main():
     db.connect()
     Accounts.create_table()
     WhiteList.create_table()
-    executor.start_polling(dp)
+
+    bot = Bot(token=os.getenv('BOT_TOKEN'))
+    dp = Dispatcher(bot)
+
+    loop = asyncio.get_event_loop()
+    loop.create_task(start_web_server())
+    bot = loop.run_until_complete(on_startup(dp))
+    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
+
+
+if __name__ == '__main__':
+    load_dotenv()
+    main()

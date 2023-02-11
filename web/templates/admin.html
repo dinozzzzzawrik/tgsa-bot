@@ -1,0 +1,191 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin-top: 10px;
+            }
+
+            .header {
+                background-color: #f2f2f2;
+                padding: 20px;
+                text-align: center;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+            }
+
+            .header h1 {
+                font-size: 36px;
+                margin: 0;
+            }
+
+            .header a {
+                color: #333;
+                text-decoration: none;
+                font-size: 18px;
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+            .content {
+                padding: 20px;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+                margin-top: 10px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .content table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            .content td, .content th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .content th {
+                background-color: #ddd;
+                font-size: 18px;
+            }
+
+            .content tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            form {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+                padding: 20px;
+                margin-top: 20px;
+            }
+
+            form h2 {
+                font-size: 24px;
+                margin: 0 0 20px;
+            }
+
+            form label {
+                font-size: 16px;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            form input[type=text],
+            form input[type=email],
+            form textarea {
+                font-size: 16px;
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                background-color: #ddd;
+                margin-bottom: 20px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            form textarea {
+                height: 150px;
+            }
+
+            form button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            form button:hover {
+                background-color: #3e8e41;
+            }
+
+            .button {
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: #f00;
+              color: #fff;
+              text-decoration: none;
+              border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Admin Panel</h1>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="content">
+          <h2>Whitelist</h2>
+          <table>
+            <tr>
+              <th>Username</th>
+              <th>Telegram id</th>
+              <th>Actions</th>
+            </tr>
+            {% for user in whitelist %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.tg_id }}</td>
+                    <td><a href="/delete?id={{ user.id }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+          </table>
+          <form method="POST" action="/add">
+
+            <label for="name">Username:</label>
+            <input type="text" id="name" name="name"><br>
+
+            <label for="tg_id">Telegram id:</label>
+            <input type="text" id="tg_id" name="tg_id"><br>
+
+            <input type="submit" value="Add User">
+          </form>
+        </div>
+        <div class="content">
+          <h2>Accounts</h2>
+          <table>
+            <tr>
+              <th>Title</th>
+              <th>Secret key <a href="/help">*how to get</a></th>
+              <th>Actions</th>
+            </tr>
+            {% for acc in accounts %}
+                <tr>
+                    <td>{{ acc.name }}</td>
+                    <td>{{ acc.key }}</td>
+                    <td><a href="/delete_acc?id={{ acc.id }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+          </table>
+          <form method="POST" action="/add_acc">
+
+            <label for="acc_name">Title:</label>
+            <input type="text" id="acc_name" name="acc_name"><br>
+
+            <label for="key">Secret key:</label>
+            <input type="text" id="key" name="key"><br>
+
+            <input type="submit" value="Add Account">
+          </form>
+        </div>
+    </body>
+</html>

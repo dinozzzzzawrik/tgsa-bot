@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Q&A Page</title>
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin-top: 10px;
+            }
+
+            .header {
+                background-color: #f2f2f2;
+                padding: 20px;
+                text-align: center;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+            }
+
+            .header h1 {
+                font-size: 36px;
+                margin: 0;
+            }
+
+            .header a {
+                color: #333;
+                text-decoration: none;
+                font-size: 18px;
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+            .content {
+                padding: 20px;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+                margin-top: 10px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .content table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            .content td, .content th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .content th {
+                background-color: #ddd;
+                font-size: 18px;
+            }
+
+            .content tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            form {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+                padding: 20px;
+                margin-top: 20px;
+            }
+
+            form h2 {
+                font-size: 24px;
+                margin: 0 0 20px;
+            }
+
+            form label {
+                font-size: 16px;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            form input[type=text],
+            form input[type=file],
+            form input[type=email],
+            form textarea {
+                font-size: 16px;
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                background-color: #ddd;
+                margin-bottom: 20px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            form textarea {
+                height: 150px;
+            }
+
+            form button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            form button:hover {
+                background-color: #3e8e41;
+            }
+
+            .button {
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: #f00;
+              color: #fff;
+              text-decoration: none;
+              border-radius: 5px;
+            }
+            nav {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background-color: #333;
+              color: #fff;
+              height: 60px;
+              padding: 0 20px;
+            }
+
+            /* Style the navigation links */
+            nav a {
+              color: #fff;
+              text-decoration: none;
+              font-size: 18px;
+              padding: 10px;
+              border-radius: 4px;
+            }
+
+            /* Style the active navigation link */
+            nav a.active {
+              background-color: #ddd;
+              color: #333;
+            }
+        </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Q&A Page</h1>
+    </div>
+    <div class="content">
+      <h2>Q&A Information</h2>
+      <div class="faq">
+        <h3>What is it?</h3>
+        <p>Steam guard in Telegram with admin panel</p>
+      </div>
+      <div class="faq">
+        <h3>How to use?</h3>
+        <p>Add telegram users in whiteleist and your steam accounts in db to generate Steam Guard by Telegram bot</p>
+      </div>
+      <div class="faq">
+        <h3>How to get secret key of steam account?</h3>
+        <p>Attach your mafile in form</p>
+        <form method="POST" action="/help" enctype="multipart/form-data">
+
+            <label for="file">Mafile:</label>
+            <input type="file" id="file" name="file"><br>
+
+            <input type="submit" value="Get key">
+          {% if login %}
+            <p>Login: {{ login }}</p>
+            <p>Key: {{ key }}</p>
+          {% endif %}
+          </form>
+      </div>
+
+    </div>
+    <div class="footer">
+      <p>&copy; made by dinozzzzzawrik with love<3</p>
+    </div>
+  </body>
+</html>
