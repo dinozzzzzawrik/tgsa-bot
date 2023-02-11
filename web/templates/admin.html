@@ -145,11 +145,11 @@
                 <tr>
                     <td>{{ user.name }}</td>
                     <td>{{ user.tg_id }}</td>
-                    <td><a href="/delete?id={{ user.id }}">Delete</a></td>
+                    <td><a href="/delete_user?id={{ user.id }}">Delete</a></td>
                 </tr>
             {% endfor %}
           </table>
-          <form method="POST" action="/add">
+          <form method="POST" action="/add_user">
 
             <label for="name">Username:</label>
             <input type="text" id="name" name="name"><br>
