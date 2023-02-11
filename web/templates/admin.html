@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin-top: 50px;
+            }
+
+            .header {
+                background-color: #f2f2f2;
+                padding: 20px;
+                text-align: center;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+            }
+
+            .header h1 {
+                font-size: 36px;
+                margin: 0;
+            }
+
+            .header a {
+                color: #333;
+                text-decoration: none;
+                font-size: 18px;
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+            .content {
+                padding: 20px;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+                margin-top: 20px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .content table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            .content td, .content th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .content th {
+                background-color: #ddd;
+                font-size: 18px;
+            }
+
+            .content tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            form {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 2px 2px 5px #bbb;
+                padding: 20px;
+                margin-top: 20px;
+            }
+
+            form h2 {
+                font-size: 24px;
+                margin: 0 0 20px;
+            }
+
+            form label {
+                font-size: 16px;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            form input[type=text],
+            form input[type=email],
+            form textarea {
+                font-size: 16px;
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                background-color: #ddd;
+                margin-bottom: 20px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            form textarea {
+                height: 150px;
+            }
+
+            form button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            form button:hover {
+                background-color: #3e8e41;
+            }
+
+            .button {
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: #f00;
+              color: #fff;
+              text-decoration: none;
+              border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Admin Panel</h1>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div class="content">
+          <h2>Users</h2>
+          <table>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+            </tr>
+            <tr>
+              <td>user1</td>
+              <td>user1@example.com</td>
+              <td><a href="/delete" class="button">Delete</a></td>
+            </tr>
+            <tr>
+              <td>user2</td>
+              <td>user2@example.com</td>
+              <td><a href="/delete" class="button">Delete</a></td>
+            </tr>
+          </table>
+          <form method="POST" action="/add_user">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"><br>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"><br>
+
+            <input type="submit" value="Add User">
+          </form>
+        </div>
+    </body>
+</html>
