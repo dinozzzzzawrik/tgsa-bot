@@ -1,5 +1,11 @@
 import os
 import asyncio
+import jinja2
+import base64
+import fernet
+import aiohttp_session
+import aiohttp_jinja2
+
 
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -16,13 +22,28 @@ from dotenv import load_dotenv
 
 from models.models import *
 
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
+
+
+def setup_routes(application: web.Application) -> None:
+    from web.admin.routes import setup_routes as setup_web_routes
+    setup_web_routes(application)
+
+
+async def setup_app(application: web.Application) -> None:
+    setup_routes(application)
+
 
 async def start_web_server():
     app = web.Application()
-    # setup your web routes here
     runner = web.AppRunner(app)
+    await setup_app(app)
+    # session_key = base64.urlsafe_b64decode(fernet.Fernet.generate_key())
+    # setup(app, cookie_storage=EncryptedCookieStorage(session_key))
+    app.middlewares.append(aiohttp_session.session_middleware(aiohttp_session.SimpleCookieStorage()))
+    aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('web/templates'))
     await runner.setup()
-    site = web.TCPSite(runner, 'localhost', 8080)
+    site = web.TCPSite(runner, host=None, port=8080)
     await site.start()
 
 
