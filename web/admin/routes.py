@@ -10,5 +10,11 @@ def setup_routes(app: web.Application) -> None:
 
     app.router.add_get('/logout', views.logout)
 
-    app.router.add_post('/add', views.add)
-    app.router.add_get('/delete', views.delete)
+    app.router.add_post('/add_user', views.add_user)
+    app.router.add_get('/delete_user', views.delete_user)
+
+    app.router.add_post('/add_acc', views.add_acc)
+    app.router.add_get('/delete_acc', views.delete_acc)
+
+    app.router.add_get('/help', views.help)
+    app.router.add_post('/help', views.help)

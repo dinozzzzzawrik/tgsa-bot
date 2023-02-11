@@ -1,6 +1,9 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <style>
+  <head>
+    <meta charset="UTF-8">
+    <title>Q&A Page</title>
+    <style>
             body {
                 font-family: Arial, sans-serif;
                 margin-top: 10px;
@@ -87,6 +90,7 @@
             }
 
             form input[type=text],
+            form input[type=file],
             form input[type=email],
             form textarea {
                 font-size: 16px;
@@ -125,67 +129,65 @@
               text-decoration: none;
               border-radius: 5px;
             }
+            nav {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background-color: #333;
+              color: #fff;
+              height: 60px;
+              padding: 0 20px;
+            }
+
+            /* Style the navigation links */
+            nav a {
+              color: #fff;
+              text-decoration: none;
+              font-size: 18px;
+              padding: 10px;
+              border-radius: 4px;
+            }
+
+            /* Style the active navigation link */
+            nav a.active {
+              background-color: #ddd;
+              color: #333;
+            }
         </style>
-    </head>
-    <body>
-        <div class="header">
-            <h1>Admin Panel</h1>
-            <a href="/logout">Logout</a>
-        </div>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Q&A Page</h1>
+    </div>
+    <div class="content">
+      <h2>Q&A Information</h2>
+      <div class="faq">
+        <h3>What is it?</h3>
+        <p>Steam guard in Telegram with admin panel</p>
+      </div>
+      <div class="faq">
+        <h3>How to use?</h3>
+        <p>Add telegram users in whiteleist and your steam accounts in db to generate Steam Guard by Telegram bot</p>
+      </div>
+      <div class="faq">
+        <h3>How to get secret key of steam account?</h3>
+        <p>Attach your mafile in form</p>
+        <form method="POST" action="/help" enctype="multipart/form-data">
 
-        <div class="content">
-          <h2>Whitelist</h2>
-          <table>
-            <tr>
-              <th>Username</th>
-              <th>Telegram id</th>
-              <th>Actions</th>
-            </tr>
-            {% for user in whitelist %}
-                <tr>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.tg_id }}</td>
-                    <td><a href="/delete?id={{ user.id }}">Delete</a></td>
-                </tr>
-            {% endfor %}
-          </table>
-          <form method="POST" action="/add">
+            <label for="file">Mafile:</label>
+            <input type="file" id="file" name="file"><br>
 
-            <label for="name">Username:</label>
-            <input type="text" id="name" name="name"><br>
-
-            <label for="tg_id">Telegram id:</label>
-            <input type="text" id="tg_id" name="tg_id"><br>
-
-            <input type="submit" value="Add User">
+            <input type="submit" value="Get key">
+          {% if login %}
+            <p>Login: {{ login }}</p>
+            <p>Key: {{ key }}</p>
+          {% endif %}
           </form>
-        </div>
-        <div class="content">
-          <h2>Accounts</h2>
-          <table>
-            <tr>
-              <th>Title</th>
-              <th>Secret key <a href="/help">*how to get</a></th>
-              <th>Actions</th>
-            </tr>
-            {% for acc in accounts %}
-                <tr>
-                    <td>{{ acc.name }}</td>
-                    <td>{{ acc.key }}</td>
-                    <td><a href="/delete_acc?id={{ acc.id }}">Delete</a></td>
-                </tr>
-            {% endfor %}
-          </table>
-          <form method="POST" action="/add_acc">
+      </div>
 
-            <label for="acc_name">Title:</label>
-            <input type="text" id="acc_name" name="acc_name"><br>
-
-            <label for="key">Secret key:</label>
-            <input type="text" id="key" name="key"><br>
-
-            <input type="submit" value="Add Account">
-          </form>
-        </div>
-    </body>
+    </div>
+    <div class="footer">
+      <p>&copy; made by dinozzzzzawrik with love<3</p>
+    </div>
+  </body>
 </html>
