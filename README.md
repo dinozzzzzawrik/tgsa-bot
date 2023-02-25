@@ -1,63 +1,63 @@
-**Telegram Steam Guard**
+Оглавление
+=
+- Введение
+- Установка
+- Как пользоваться
+- Получение помощи
+- Сотрудничество
+- 
+Введение
+=
 
-=================
-Table of contents
-=================
+Этот проект является частью TGSA - Telegram BOT
 
-- `Introduction`
+Установка
+=
 
-- `Installing`
+Склонируйте репозиторий:
 
-- `Getting help`
-
-- `Contributing`
-
-- `How to add account in db`
-
-============
-Introduction
-============
-
-This is one of TGSA project part - Telegram BOT  
-
-==========
-Installing
-==========
 
     $ git clone https://github.com/dinozzzzzawrik/tgsa-bot.git
-    
-    Setup envs:
-    
-    - Create .env file with BOT_TOKEN=token here in it
-    
+
+
+Настройте переменные окружения:
+
+Создайте файл .env и добавьте в него:
+
+- BOT_TOKEN=ваш_токен_бота
+- LOGIN=логин_от_админки
+- PASSWORD=пароль_от_админки
+- PORT=порт_на_котором_будет_сервер | 8080
+
+
+Установите зависимости:
+
     $ pip install -r requirements.txt
+
+Запустите бота:
+
     $ python run.py
 
-============
-Getting help
-============
+Как пользоваться
+=
 
-You can get help using issues:
+После запуска основного файла у вас запуститься телеграм бот и веб сервер
 
-Report bugs, request new features or ask questions by `creating an issue`
+Веб сервер будет доступен по localhost:8080 или ваш_айпи:8080
 
-============
-Contributing
-============
+Данные для входа используем те что мы указали в .env файле
 
-Contributions of all sizes are welcome
-
-======================================================
-How to add account in db - will make it by admin panel
-======================================================
-
-Open python shell
-
-    $ from models import *
+Поздравляю, Вы зашли в админку
 
 
-    $ account = Accounts(name='account name in db', key='shared_secret valie from Mafile')
-    $ account.save()
+Получение помощи
+=
+Если у вас возникли вопросы или проблемы, вы можете получить помощь, создав issue на странице проекта.
 
-    $ user = WhiteList(name='User name', tg_id=telegram id from @userinfobot)
-    $ user.save()
+Сотрудничество
+=
+
+Мы приветствуем любой вклад в проект.
+
+Если вы хотите внести свой вклад в проект, вы можете сделать это, создав pull request.
+

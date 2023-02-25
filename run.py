@@ -43,7 +43,7 @@ async def start_web_server():
     app.middlewares.append(aiohttp_session.session_middleware(aiohttp_session.SimpleCookieStorage()))
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('web/templates'))
     await runner.setup()
-    site = web.TCPSite(runner, host=None, port=8080)
+    site = web.TCPSite(runner, host=None, port=os.getenv('PORT'))
     await site.start()
 
 
